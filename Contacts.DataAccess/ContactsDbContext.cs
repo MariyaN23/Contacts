@@ -9,6 +9,6 @@ namespace Contacts.DataAccess
             : base(options)
         {
         }
-        public DbSet<ContactEntity> Contact { get; set; }
+        public DbSet<ContactEntity> Contacts { get; set; }
     }
 }
