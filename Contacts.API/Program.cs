@@ -1,4 +1,7 @@
+using Contacts.Application.Services;
+using Contacts.Core.Abstractions;
 using Contacts.DataAccess;
+using Contacts.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +18,8 @@ builder.Services.AddDbContext<ContactsDbContext>(
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(ContactsDbContext)));
     });
 
-//builder.Services.AddScoped<IContactsServices, ContactsService>();
+builder.Services.AddScoped<IContactsService, ContactsService>();
+builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 
 var app = builder.Build();
 

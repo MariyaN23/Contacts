@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.AppHost", "Contact
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.ServiceDefaults", "Contacts.ServiceDefaults\Contacts.ServiceDefaults.csproj", "{D93009AB-64F6-754A-3287-B124C96C2EFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Application", "Contacts.Application\Contacts.Application.csproj", "{3C84C1CB-9E98-4493-BED2-DFDF9BC2803E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D93009AB-64F6-754A-3287-B124C96C2EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D93009AB-64F6-754A-3287-B124C96C2EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D93009AB-64F6-754A-3287-B124C96C2EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C84C1CB-9E98-4493-BED2-DFDF9BC2803E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C84C1CB-9E98-4493-BED2-DFDF9BC2803E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C84C1CB-9E98-4493-BED2-DFDF9BC2803E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C84C1CB-9E98-4493-BED2-DFDF9BC2803E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
