@@ -2,8 +2,8 @@
 {
     public class Contact
     {
-        const int MAX_NAME_LENGHT = 100; 
-        const int MAX_JOB_TITLE_LENGHT = 100; 
+        public const int MAX_NAME_LENGHT = 100;
+        public const int MAX_JOB_TITLE_LENGHT = 100; 
         private Contact(Guid id, string name, string mobilePhone, string jobTitle, DateOnly birthDate)
         {
             Id = id;
