@@ -1,9 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Contacts from "@/components/Contacts.vue";
+import Toast from "primevue/toast";
+</script>
 
 <template>
-  <h1 class="text-3xl font-bold underline text-red-500">
-    Hello world!
-  </h1>
+  <Toast />
+  <Contacts />
 </template>
-
-<style scoped></style>

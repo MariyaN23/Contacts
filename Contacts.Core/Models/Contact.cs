@@ -2,8 +2,8 @@
 {
     public class Contact
     {
-        public const int MAX_NAME_LENGHT = 100;
-        public const int MAX_JOB_TITLE_LENGHT = 100; 
+        public const int MAX_NAME_LENGTH = 100;
+        public const int MAX_JOB_TITLE_LENGTH = 100; 
         private Contact(Guid id, string name, string mobilePhone, string jobTitle, DateOnly birthDate)
         {
             Id = id;
@@ -22,13 +22,13 @@
         public static (Contact contact, string Error) Create(Guid id, string name, string mobilePhone, string jobTitle, DateOnly birthDate)
         {
             var error = string.Empty;
-            if (string.IsNullOrEmpty(name) || name.Length > MAX_NAME_LENGHT)
+            if (string.IsNullOrEmpty(name) || name.Length > MAX_NAME_LENGTH)
             {
-                error = $"Name cannot be empty or longer than {MAX_NAME_LENGHT} symbols";
+                error = $"Name cannot be empty or longer than {MAX_NAME_LENGTH} symbols";
             }
-            if (string.IsNullOrEmpty(jobTitle) || jobTitle.Length > MAX_JOB_TITLE_LENGHT)
+            if (string.IsNullOrEmpty(jobTitle) || jobTitle.Length > MAX_JOB_TITLE_LENGTH)
             {
-                error = $"Job title cannot be empty or longer than {MAX_JOB_TITLE_LENGHT} symbols";
+                error = $"Job title cannot be empty or longer than {MAX_JOB_TITLE_LENGTH} symbols";
             }
             if (string.IsNullOrEmpty(mobilePhone))
             {

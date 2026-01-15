@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contacts.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
         private readonly IContactsService _contactsService;

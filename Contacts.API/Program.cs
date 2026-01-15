@@ -21,6 +21,8 @@ builder.Services.AddDbContext<ContactsDbContext>(
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
