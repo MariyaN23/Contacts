@@ -3,9 +3,11 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import type { Contact } from "@/types/Contact.ts";
-import { deleteContact, getAllContacts } from "@/services/contacts.ts";
+import { createContact, deleteContact, getAllContacts } from "@/services/contacts.ts";
 import { onMounted, ref } from "vue";
 import { useToast } from 'primevue/usetoast';
+import ContactsModal from "@/components/ContactsModal.vue";
+import type { ContactRequest } from "@/types/ContactRequest.ts";
 
 const toast = useToast()
 const contacts = ref<Contact[]>([])
@@ -26,6 +28,15 @@ const deleteCurrentContact = async (id: string) => {
     toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error})
   }
 }
+const addContact = async (data: ContactRequest) => {
+  try {
+    await createContact(data)
+    await getContacts()
+    toast.add({severity: 'success', summary: 'New contact added'})
+  } catch (error) {
+    toast.add({severity: 'error', summary: 'Error', detail: error})
+  }
+}
 onMounted(async () => {
   await getContacts()
 })
@@ -35,9 +46,11 @@ onMounted(async () => {
   <div class="py-14 px-4 space-y-4 max-w-2xl mx-auto">
     <h1 class="font-bold text-2xl text-color">Contacts</h1>
     <div class="flex justify-end">
-      <Button
+      <ContactsModal
           label="Add new contact"
           icon="pi pi-plus"
+          modal-header="Add new contact"
+          @submit-form="addContact"
       />
     </div>
     <DataTable :value="contacts">
@@ -48,11 +61,12 @@ onMounted(async () => {
       <Column field="edit" header="Options">
         <template #body="slotProps">
           <div class="flex gap-1">
-            <Button
-                icon="pi pi-pencil"
+            <ContactsModal
                 aria-label="Edit"
+                icon="pi pi-pencil"
                 size="small"
                 variant="outlined"
+                modal-header="Edit contact"
             />
             <Button
                 icon="pi pi-trash"
@@ -65,6 +79,9 @@ onMounted(async () => {
           </div>
         </template>
       </Column>
+      <template #empty>
+        <p class="text-center">No contacts found.</p>
+      </template>
     </DataTable>
   </div>
 </template>

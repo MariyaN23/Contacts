@@ -30,6 +30,7 @@ namespace Contacts.DataAccess.Repositories
             var contactEntity = new ContactEntity
             {
                 Id = contact.Id,
+                Name = contact.Name,
                 MobilePhone = contact.MobilePhone,
                 JobTitle = contact.JobTitle,
                 BirthDate = contact.BirthDate,

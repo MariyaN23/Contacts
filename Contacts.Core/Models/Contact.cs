@@ -13,11 +13,11 @@
             BirthDate = birthDate;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string MobilePhone { get; set; }
-        public string JobTitle { get; set; }
-        public DateOnly BirthDate { get; set; }
+        public Guid Id { get; }
+        public string Name { get; }
+        public string MobilePhone { get; }
+        public string JobTitle { get; }
+        public DateOnly BirthDate { get; }
 
         public static (Contact contact, string Error) Create(Guid id, string name, string mobilePhone, string jobTitle, DateOnly birthDate)
         {
