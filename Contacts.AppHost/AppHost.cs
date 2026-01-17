@@ -8,7 +8,8 @@ var postgres = builder.AddPostgres("postgres")
 var db = postgres.AddDatabase("db");
 
 var api = builder.AddProject<Projects.Contacts_API>("contacts-api")
-    .WithReference(db);
+    .WithReference(db)
+    .WaitFor(db);
 
 var client = builder
     .AddViteApp("contacts-client", "../Contacts.Client")
