@@ -12,11 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ContactsDbContext>(
-    options =>
-    {
-        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(ContactsDbContext)));
-    });
+builder.AddNpgsqlDbContext<ContactsDbContext>("db");
 
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
@@ -45,5 +41,11 @@ app.UseCors(x =>
     x.WithOrigins("http://localhost:5173");
     x.WithMethods().AllowAnyMethod();
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ContactsDbContext>();
+    await dbContext.Database.MigrateAsync(); 
+}
 
 app.Run();

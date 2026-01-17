@@ -1,6 +1,14 @@
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-var api = builder.AddProject<Projects.Contacts_API>("contacts-api");
+var postgres = builder.AddPostgres("postgres")
+    .WithDataBindMount("./postgres_data");
+
+var db = postgres.AddDatabase("db");
+
+var api = builder.AddProject<Projects.Contacts_API>("contacts-api")
+    .WithReference(db);
 
 var client = builder
     .AddViteApp("contacts-client", "../Contacts.Client")
