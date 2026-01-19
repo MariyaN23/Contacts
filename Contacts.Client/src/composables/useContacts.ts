@@ -10,6 +10,7 @@ export function useContacts() {
     const isLoading = ref(false)
     const contacts = ref<Contact[]>([])
     const confirm = useConfirm()
+    const life = 2000
 
     const getContacts = async () => {
         isLoading.value = true
@@ -17,7 +18,7 @@ export function useContacts() {
             const response = await getAllContacts()
             contacts.value = await response.json()
         } catch (error) {
-            toast.add({severity: 'error', summary: 'Failed to fetch contacts', detail: error})
+            toast.add({severity: 'error', summary: 'Failed to fetch contacts', detail: error, life})
         } finally {
             isLoading.value = false
         }
@@ -33,9 +34,9 @@ export function useContacts() {
                 try {
                     await deleteContact(id)
                     await getContacts()
-                    toast.add({severity: 'info', summary: 'Contact deleted'})
+                    toast.add({severity: 'info', summary: 'Contact deleted', life})
                 } catch (error) {
-                    toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error})
+                    toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error, life})
                 }
             }
         })
@@ -44,18 +45,18 @@ export function useContacts() {
         try {
             await createContact(data)
             await getContacts()
-            toast.add({severity: 'success', summary: 'New contact added'})
+            toast.add({severity: 'success', summary: 'New contact added', life})
         } catch (error) {
-            toast.add({severity: 'error', summary: 'Error', detail: error})
+            toast.add({severity: 'error', summary: 'Error', detail: error, life})
         }
     }
     const updateCurrentContact = async (id: string, data: ContactRequest) => {
         try {
             await updateContact(id, data)
             await getContacts()
-            toast.add({severity: 'info', summary: 'Contact was updated'})
+            toast.add({severity: 'info', summary: 'Contact was updated', life})
         } catch (error) {
-            toast.add({severity: 'error', summary: 'Error', detail: error})
+            toast.add({severity: 'error', summary: 'Error', detail: error, life})
         }
     }
 
