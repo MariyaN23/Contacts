@@ -32,7 +32,7 @@ const formValues = ref<ContactForm>({
   name: props.initialValues.name,
   mobilePhone: props.initialValues.mobilePhone,
   jobTitle: props.initialValues.jobTitle,
-  birthDate: birthDate.value,
+  birthDate: props.initialValues.birthDate,
 })
 const resolver = ref(zodResolver(
     z.object({
@@ -64,7 +64,7 @@ const onFormSubmit = ({valid, values}: FormSubmitEvent) => {
 }
 watch(() => props.initialValues, (newValues) => {
   formValues.value = {...newValues}
-}, {deep: true})
+}, {deep: true, immediate: true})
 </script>
 
 <template>
@@ -98,7 +98,7 @@ watch(() => props.initialValues, (newValues) => {
         />
         <FormInput
             name="mobilePhone"
-            label="Mobile phone"
+            label="Mobile phone (e.g. +375291234567)"
             :invalid="$form.mobilePhone?.invalid"
             :error-message="$form.mobilePhone?.error?.message"
         />
@@ -109,7 +109,14 @@ watch(() => props.initialValues, (newValues) => {
             :error-message="$form.jobTitle?.error?.message"
         />
         <div class="flex flex-col gap-1">
-          <DatePicker name="birthDate" :model-value="birthDate" showIcon fluid/>
+          <DatePicker
+              name="birthDate"
+              v-model="birthDate"
+              dateFormat="dd.mm.yy"
+              :manualInput="false"
+              showIcon
+              fluid
+          />
           <Message v-if="$form.birthDate?.invalid" severity="error" size="small" variant="simple">
             {{ $form.birthDate.error?.message }}
           </Message>

@@ -17,3 +17,14 @@ export const stringToDateFormatter = (date: string) => {
 
     return new Date()
 }
+
+export const displayedDate = (date: string) => {
+    const parts = date.split('-')
+    if (parts[0] && parts[1] && parts[2]) {
+        const year = parts[0]
+        const month = parts[1]
+        const day = parts[2]
+
+        return `${day.padStart(2, '0')}.${month.padStart(2, '0')}.${year}`
+    }
+}

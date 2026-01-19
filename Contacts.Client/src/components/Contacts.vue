@@ -4,7 +4,7 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 import {onMounted} from "vue";
 import ContactsModal from "@/components/ContactsModal.vue";
-import {stringToDateFormatter} from "@/utils/date-formatter.ts";
+import {displayedDate, stringToDateFormatter} from "@/utils/date-formatter.ts";
 import {useContacts} from "@/composables/useContacts.ts";
 
 const {
@@ -44,13 +44,14 @@ onMounted(async () => {
       <Column field="jobTitle" header="Job title"></Column>
       <Column field="birthDate" header="Birth date">
         <template #body="slotProps">
-          {{ new Date(slotProps.data.birthDate).toLocaleDateString() }}
+          {{ displayedDate(slotProps.data.birthDate) }}
         </template>
       </Column>
       <Column field="edit" header="Options">
         <template #body="slotProps">
           <div class="flex gap-1">
             <ContactsModal
+                :key="slotProps.data.id"
                 aria-label="Edit"
                 icon="pi pi-pencil"
                 size="small"
