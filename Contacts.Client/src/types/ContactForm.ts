@@ -1,4 +1,4 @@
-export interface ContactRequest {
+export interface ContactForm {
     name: string
     mobilePhone: string
     jobTitle: string

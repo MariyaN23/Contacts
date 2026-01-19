@@ -2,41 +2,21 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
-import type { Contact } from "@/types/Contact.ts";
-import { createContact, deleteContact, getAllContacts } from "@/services/contacts.ts";
-import { onMounted, ref } from "vue";
-import { useToast } from 'primevue/usetoast';
+import {onMounted} from "vue";
 import ContactsModal from "@/components/ContactsModal.vue";
-import type { ContactRequest } from "@/types/ContactRequest.ts";
+import {stringToDateFormatter} from "@/utils/date-formatter.ts";
+import DatePicker from "primevue/datepicker";
+import {useContacts} from "@/composables/useContacts.ts";
 
-const toast = useToast()
-const contacts = ref<Contact[]>([])
+const {
+  contacts,
+  isLoading,
+  getContacts,
+  deleteCurrentContact,
+  addNewContact,
+  updateCurrentContact,
+} = useContacts()
 
-const getContacts = async () => {
-  try {
-    const response = await getAllContacts()
-    contacts.value = await response.json()
-  } catch (error) {
-    toast.add({severity: 'error', summary: 'Failed to fetch contacts', detail: error})
-  }
-}
-const deleteCurrentContact = async (id: string) => {
-  try {
-    await deleteContact(id)
-    await getContacts()
-  } catch (error) {
-    toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error})
-  }
-}
-const addContact = async (data: ContactRequest) => {
-  try {
-    await createContact(data)
-    await getContacts()
-    toast.add({severity: 'success', summary: 'New contact added'})
-  } catch (error) {
-    toast.add({severity: 'error', summary: 'Error', detail: error})
-  }
-}
 onMounted(async () => {
   await getContacts()
 })
@@ -50,14 +30,24 @@ onMounted(async () => {
           label="Add new contact"
           icon="pi pi-plus"
           modal-header="Add new contact"
-          @submit-form="addContact"
+          @submit-form="addNewContact"
+          :initial-values="{
+            name: '',
+            mobilePhone: '',
+            jobTitle: '',
+            birthDate: new Date(),
+          }"
       />
     </div>
-    <DataTable :value="contacts">
+    <DataTable :value="contacts" :loading="isLoading">
       <Column field="name" header="Name"></Column>
       <Column field="mobilePhone" header="Mobile phone"></Column>
       <Column field="jobTitle" header="Job title"></Column>
-      <Column field="birthDate" header="Birth date"></Column>
+      <Column field="birthDate" header="Birth date">
+        <template #body="slotProps">
+          {{ new Date(slotProps.data.birthDate).toLocaleDateString() }}
+        </template>
+      </Column>
       <Column field="edit" header="Options">
         <template #body="slotProps">
           <div class="flex gap-1">
@@ -67,6 +57,13 @@ onMounted(async () => {
                 size="small"
                 variant="outlined"
                 modal-header="Edit contact"
+                @submit-form="(values) => updateCurrentContact(slotProps.data.id, values)"
+                :initial-values="{
+                  name: slotProps.data.name,
+                  mobilePhone: slotProps.data.mobilePhone,
+                  jobTitle: slotProps.data.jobTitle,
+                  birthDate: stringToDateFormatter(slotProps.data.birthDate)
+                }"
             />
             <Button
                 icon="pi pi-trash"
