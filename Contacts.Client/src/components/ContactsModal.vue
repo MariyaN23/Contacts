@@ -11,6 +11,7 @@ import {z} from 'zod';
 import {MAX_JOB_TITLE_LENGTH, MAX_NAME_LENGTH} from "@/utils/constants.ts";
 import {dateToStringFormatter} from "@/utils/date-formatter.ts";
 import {isValidPhoneNumber} from "libphonenumber-js";
+import type {ContactRequest} from "@/types/ContactRequest.ts";
 import type {ContactForm} from "@/types/ContactForm.ts";
 
 const props = defineProps<{
@@ -23,7 +24,7 @@ const props = defineProps<{
   initialValues: ContactForm
 }>()
 const emit = defineEmits<{
-  (e: 'submit-form', values: any): void
+  (e: 'submit-form', values: ContactRequest): void
 }>()
 const visible = ref(false)
 const birthDate = ref(props.initialValues.birthDate)
@@ -50,8 +51,10 @@ const resolver = ref(zodResolver(
 ))
 const onFormSubmit = ({valid, values}: FormSubmitEvent) => {
   if (valid) {
-    const payload = {
-      ...values,
+    const payload: ContactRequest = {
+      name: values.name,
+      mobilePhone: values.mobilePhone,
+      jobTitle: values.jobTitle,
       birthDate: dateToStringFormatter(values.birthDate),
     }
     emit('submit-form', payload)

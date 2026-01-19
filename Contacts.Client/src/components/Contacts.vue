@@ -5,7 +5,6 @@ import Button from 'primevue/button';
 import {onMounted} from "vue";
 import ContactsModal from "@/components/ContactsModal.vue";
 import {stringToDateFormatter} from "@/utils/date-formatter.ts";
-import DatePicker from "primevue/datepicker";
 import {useContacts} from "@/composables/useContacts.ts";
 
 const {

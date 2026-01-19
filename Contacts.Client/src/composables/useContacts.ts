@@ -3,11 +3,13 @@ import {createContact, deleteContact, getAllContacts, updateContact} from "@/ser
 import type {ContactRequest} from "@/types/ContactRequest.ts";
 import {ref} from "vue";
 import type {Contact} from "@/types/Contact.ts";
+import {useConfirm} from "primevue";
 
 export function useContacts() {
     const toast = useToast()
     const isLoading = ref(false)
     const contacts = ref<Contact[]>([])
+    const confirm = useConfirm()
 
     const getContacts = async () => {
         isLoading.value = true
@@ -21,13 +23,22 @@ export function useContacts() {
         }
     }
     const deleteCurrentContact = async (id: string) => {
-        try {
-            await deleteContact(id)
-            await getContacts()
-            toast.add({severity: 'info', summary: 'Contact deleted'})
-        } catch (error) {
-            toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error})
-        }
+        confirm.require({
+            message: 'Are you sure you want to delete this contact?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            rejectProps: {label: 'Cancel', severity: 'secondary', outlined: true},
+            acceptProps: {label: 'Delete', severity: 'danger'},
+            accept: async () => {
+                try {
+                    await deleteContact(id)
+                    await getContacts()
+                    toast.add({severity: 'info', summary: 'Contact deleted'})
+                } catch (error) {
+                    toast.add({severity: 'error', summary: 'Failed to delete contact', detail: error})
+                }
+            }
+        })
     }
     const addNewContact = async (data: ContactRequest) => {
         try {
